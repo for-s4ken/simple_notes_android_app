@@ -8,7 +8,7 @@
     android:background="@color/colorBackground">
 
     <EditText
-        android:id="@+id/noteEdit"
+        android:id="@+id/noteEditText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:ems="10"
@@ -21,18 +21,18 @@
         android:textColorHighlight="@color/colorPrimaryDark"
         android:textColorHint="@color/ColorAccentLessOpacity"
         android:textColorLink="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/saveButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/saveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/saveButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noteEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/noteEditText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

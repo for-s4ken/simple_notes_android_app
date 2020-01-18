@@ -3,6 +3,8 @@ package com.und3f1n3d;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem deleteNote;
     private Menu mainMenu;
     private static List<Note> notes;
+    private  Activity main;
+
+    private static int idOfCurrentNote;
 
 
     @Override
@@ -26,14 +31,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         notes = new ArrayList<>();
+        main = this;
         for(int i = 0; i < 10; i++){
             notes.add(Note.makeNewNote("312e1910e1uem812e128eu1290hf1f" + i));
-            System.out.println(notes.get(i));
         }
         FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-        transaction.replace(R.id.mainLayout, new NotesListFragment());
+        transaction.replace(R.id.mainLayout, new NotesListFragment(this));
         transaction.commit();
 
     }
@@ -55,15 +60,12 @@ public class MainActivity extends AppCompatActivity {
                         .beginTransaction()
                         .addToBackStack("notesListFragment")
                         .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-                transaction.replace(R.id.mainLayout, new NoteEditFragment());
+                transaction.replace(R.id.mainLayout, new NoteEditFragment(this));
                 transaction.commit();
-                addNote.setVisible(false);
-                deleteNote.setVisible(true);
                 return true;
             case  R.id.deleteNote:
+                removeNote();
                 onBackPressed();
-                addNote.setVisible(true);
-                deleteNote.setVisible(false);
                 return true;
 
                 default:
@@ -77,11 +79,32 @@ public class MainActivity extends AppCompatActivity {
         if(fragmentCount == 0){
             super.onBackPressed();
         }else{
-            addNote.setVisible(true);
-            deleteNote.setVisible(false);
+            changeMenuMode(true);
             getSupportFragmentManager().popBackStack();
         }
     }
 
+
     public static List<Note> getNotes() { return notes; }
+
+    public static void redactNote(int id, String change){
+        notes.get(id).changeText(change);
+    }
+
+    public static void removeNote(){
+        notes.remove(idOfCurrentNote);
+    }
+
+    public static void addNewNote(Note n){
+        notes.add(n);
+    }
+
+    public void changeMenuMode(boolean b){
+        addNote.setVisible(b);
+        deleteNote.setVisible(!b);
+    }
+
+    public static void setIdOfCurrentNote(int t){
+        idOfCurrentNote = t;
+    }
 }
