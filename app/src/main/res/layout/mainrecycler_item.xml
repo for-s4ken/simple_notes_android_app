@@ -1,33 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:cardBackgroundColor="@color/colorBackground">
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:baselineAligned="true"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/header"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="15dp"
+                android:shadowColor="@color/colorPrimaryDark"
                 android:text="@string/sampleHeader"
-                android:textSize="32sp"
-                android:textColor="@color/colorAccent"
-                android:shadowColor="@color/ColorAccentLessOpacity"/>
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="32sp" />
 
             <TextView
                 android:id="@+id/date"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:shadowColor="@color/ColorAccentLessOpacity"
+                android:paddingStart="15dp"
+                android:shadowColor="@color/colorPrimaryDark"
                 android:text="@string/sampleDate"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="23sp" />
 
         </LinearLayout>
