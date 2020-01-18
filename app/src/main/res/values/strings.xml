@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Simple_notes_android_app</string>
+    <string name="menuItem1">SaveNote</string>
+    <string name="menuItem2">DeleteNote</string>
 </resources>
