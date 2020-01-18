@@ -11,16 +11,20 @@ public class Note {
 
     // CONSTRUCTOR
 
-    Note(String text, String dateOfLastChange){
+    private Note(String text, String dateOfLastChange){
         this.text = text;
         this.dateOfLastChange = dateOfLastChange;
     }
 
-    // NOTE REDACTING METHOD
+    // NOTE REDACTING METHODS
 
-    private void changeText(String text) {
+    public void changeText(String text) {
         this.text = text;
         this.dateOfLastChange = Calendar.getInstance().getTime().toString().substring(0, 19);
+    }
+
+    public static Note makeNewNote(String text){
+        return new Note(text, Calendar.getInstance().getTime().toString().substring(0, 19));
     }
 
     // GETTERS
@@ -29,4 +33,13 @@ public class Note {
 
     public String getDateOfLastChange() { return dateOfLastChange; }
 
+    // TO STRING
+
+    @Override
+    public String toString() {
+        return "Note{" +
+                "text='" + text + '\'' +
+                ", dateOfLastChange='" + dateOfLastChange + '\'' +
+                '}';
+    }
 }

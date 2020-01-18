@@ -8,14 +8,8 @@
         android:title="@string/menuItem3"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/saveNote"
-        android:icon="@android:drawable/ic_menu_save"
-        android:title="@string/menuItem1"
-        android:visible="false"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/deleteNote"
-        android:icon="@color/colorPrimaryDark"
+        android:icon="@android:drawable/ic_menu_delete"
         android:title="@string/menuItem2"
         android:visible="false"
         app:showAsAction="always" />
