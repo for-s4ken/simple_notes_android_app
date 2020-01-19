@@ -26,6 +26,8 @@ public class NotesListFragment extends Fragment {
     private RecyclerView.Adapter mainAdapter;
     private FragmentActivity main;
 
+    private static boolean noteEditActive = false;
+
     //CONSTRUCTORS
 
     public NotesListFragment() {
@@ -38,11 +40,14 @@ public class NotesListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_notes_list, container, false);
+        noteEditActive = false;
         mainRecycler = rootView.findViewById(R.id.mainRecycler);
         mainRecycler.setHasFixedSize(true);
         mainRecycler.setLayoutManager(new LinearLayoutManager(main.getBaseContext()));
         mainAdapter = new MainAdapter((pos, v) ->{
             NoteEditFragment.setNoteToEdit(MainActivity.getNotes().get(pos));
+            noteEditActive = true;
+            main.invalidateOptionsMenu();
             FragmentTransaction transaction = main.getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
@@ -60,5 +65,11 @@ public class NotesListFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         main = getActivity();
+    }
+
+    // GETTER
+
+    public static boolean isNoteEditActive() {
+        return noteEditActive;
     }
 }

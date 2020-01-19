@@ -21,9 +21,10 @@ public class NoteEditFragment extends Fragment {
 
     private View rootView;
     private FragmentActivity main;
-    private static Note noteToEdit;
     private EditText noteEditText;
     private Button saveButton;
+
+    private static Note noteToEdit;
 
     //CONSTRUCTORS
 

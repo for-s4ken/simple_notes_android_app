@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import com.und3f1n3d.fragments.NoteEditFragment;
 import com.und3f1n3d.fragments.NotesListFragment;
 import com.und3f1n3d.model.Note;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +44,16 @@ public class MainActivity extends AppCompatActivity {
         deleteNote = menu.findItem(R.id.deleteNote);
         addNote = menu.findItem(R.id.addNote);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(NotesListFragment.isNoteEditActive()){
+            changeMenuMode(false);
+        }else{
+            changeMenuMode(true);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -86,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
     public static void redactNote(int id, String change){
         notes.get(id).changeText(change);
     }
-
 
     public static void addNewNote(Note n){
         notes.add(n);

@@ -30,11 +30,16 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Note note = MainActivity.getNotes().get(position);
         holder.date.setText(note.getDateOfLastChange());
-        if(note.getText().length() > 19){
-            String temp = (note.getText().substring(0, 16) + "...");
+        String temp = note.getText();
+        if(temp.length() > 19) {
+            temp = (note.getText().substring(0, 16) + "...");
             holder.header.setText(temp);
+            System.out.println(temp);
+
+        }else if(temp.contains(System.lineSeparator())){
+            holder.header.setText(temp.substring(0, temp.indexOf(System.lineSeparator())));
         }else{
-            holder.header.setText(note.getText());
+            holder.header.setText(temp);
         }
     }
 
