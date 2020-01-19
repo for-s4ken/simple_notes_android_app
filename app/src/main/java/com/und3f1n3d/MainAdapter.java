@@ -18,6 +18,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         MainAdapter.clickListenerMain = listener;
     }
 
+    // INFLATING LAYOUT
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -26,29 +28,38 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         return new ViewHolder(v);
     }
 
+    // SHOWING FIRST LINE OF STRING
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Note note = MainActivity.getNotes().get(position);
         holder.date.setText(note.getDateOfLastChange());
         String temp = note.getText();
-        if(temp.length() > 19) {
+        if(temp.contains(System.lineSeparator())) {
+            if(temp.length() > 19){
+                temp = temp.substring(0, temp.indexOf(System.lineSeparator())).substring(0, 16) + "...";
+                holder.header.setText(temp);
+            }else{
+                holder.header.setText(temp.substring(0, temp.indexOf(System.lineSeparator())));
+            }
+        }else if(temp.length() > 19){
             temp = (note.getText().substring(0, 16) + "...");
-            holder.header.setText(temp);
             System.out.println(temp);
-
-        }else if(temp.contains(System.lineSeparator())){
-            holder.header.setText(temp.substring(0, temp.indexOf(System.lineSeparator())));
+            holder.header.setText(temp);
         }else{
             holder.header.setText(temp);
         }
     }
 
+    /////////////////////////////////
 
 
     @Override
     public int getItemCount() {
         return MainActivity.getNotes().size();
     }
+
+    // VIEWHOLDER MODEL
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
@@ -70,6 +81,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         }
 
     }
+
+    // THIS ALLOWS TO USE ONCLICK METHOD FOR VIEWHOLDERS
 
     @FunctionalInterface
     public interface ClickListener{

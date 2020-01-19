@@ -39,13 +39,16 @@ public class Note {
 
     public int getId() { return id; }
 
+    // ID SETTER
+
+    public void setId(int id){
+        this.id = id;
+    }
+
     // TO STRING
 
     @Override
     public String toString() {
-        return "Note{" +
-                "text='" + text + '\'' +
-                ", dateOfLastChange='" + dateOfLastChange + '\'' +
-                '}';
+        return text + " " + id;
     }
 }

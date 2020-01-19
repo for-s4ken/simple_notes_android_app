@@ -47,13 +47,16 @@ public class NotesListFragment extends Fragment {
         mainAdapter = new MainAdapter((pos, v) ->{
             NoteEditFragment.setNoteToEdit(MainActivity.getNotes().get(pos));
             noteEditActive = true;
+            // This calls the onPrepareOptionsMenu method in MainActivity:
             main.invalidateOptionsMenu();
+            /////////////////////////////
             FragmentTransaction transaction = main.getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                     .addToBackStack("noteEditFragment");
             transaction.replace(R.id.mainLayout, new NoteEditFragment());
             transaction.commit();
+            //
         });
         mainRecycler.setAdapter(mainAdapter);
 

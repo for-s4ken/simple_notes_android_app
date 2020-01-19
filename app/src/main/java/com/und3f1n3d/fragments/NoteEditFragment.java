@@ -19,14 +19,12 @@ public class NoteEditFragment extends Fragment {
 
     //FIELDS
 
-    private View rootView;
     private FragmentActivity main;
     private EditText noteEditText;
-    private Button saveButton;
 
     private static Note noteToEdit;
 
-    //CONSTRUCTORS
+    //CONSTRUCTOR
 
     public NoteEditFragment() {
         // Required empty public constructor
@@ -37,8 +35,8 @@ public class NoteEditFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_note_edit, container, false);
-        saveButton = rootView.findViewById(R.id.saveButton);
+        View rootView = inflater.inflate(R.layout.fragment_note_edit, container, false);
+        Button saveButton = rootView.findViewById(R.id.saveButton);
         noteEditText = rootView.findViewById(R.id.noteEditText);
         if(noteToEdit != null){
             noteEditText.setText(noteToEdit.getText());
@@ -67,4 +65,7 @@ public class NoteEditFragment extends Fragment {
 
     public static void setNoteToEdit(Note n) { noteToEdit = n; }
 
+    public static Note getCurrentNote(){
+        return noteToEdit;
+    }
 }
