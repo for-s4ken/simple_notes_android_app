@@ -6,22 +6,16 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.und3f1n3d.fragments.NoteEditFragment;
 import com.und3f1n3d.model.Note;
 
-import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
-    private List<Note> notes;
-    private MainActivity main;
+    private static ClickListener clickListenerMain;
 
-    public MainAdapter(MainActivity main) {
-        this.notes = MainActivity.getNotes();
-        this.main = main;
+    public MainAdapter(ClickListener listener) {
+        MainAdapter.clickListenerMain = listener;
     }
 
     @NonNull
@@ -34,18 +28,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Note note = notes.get(position);
+        Note note = MainActivity.getNotes().get(position);
         holder.date.setText(note.getDateOfLastChange());
-        holder.linearLayout.setOnClickListener(l -> {
-            NoteEditFragment.setNoteToEdit(notes.get(position));
-            FragmentTransaction transaction = main.getSupportFragmentManager()
-                    .beginTransaction()
-                    .addToBackStack("notesListFragment")
-                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-            transaction.replace(R.id.mainLayout, new NoteEditFragment(main));
-            transaction.commit();
-            main.changeMenuMode(false);
-        });
         if(note.getText().length() > 19){
             String temp = (note.getText().substring(0, 16) + "...");
             holder.header.setText(temp);
@@ -58,10 +42,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return notes.size();
+        return MainActivity.getNotes().size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView header;
         private TextView date;
@@ -72,6 +56,19 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             header = itemView.findViewById(R.id.header);
             date = itemView.findViewById(R.id.date);
             linearLayout = itemView.findViewById(R.id.linearLayout);
+            linearLayout.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            clickListenerMain.onItemClick(getAdapterPosition(), v);
+        }
+
     }
+
+    @FunctionalInterface
+    public interface ClickListener{
+        void onItemClick(int pos, View v);
+    }
+
 }
