@@ -3,6 +3,7 @@
     <string name="menuItem1">SaveNote</string>
     <string name="menuItem2">DeleteNote</string>
     <string name="menuItem3">AddNote</string>
+    <string name="menuItem4">ExportNote</string>
     <string name="saveButton">SAVE NOTE</string>
     <string name="textHint">Type something…</string>
     <string name="sampleHeader">Header</string>

@@ -50,6 +50,6 @@ public class Note implements Serializable {
 
     @Override
     public String toString() {
-        return text + "\n" + dateOfLastChange + "\n" + id;
+        return text + " " + dateOfLastChange + " " + id;
     }
 }
