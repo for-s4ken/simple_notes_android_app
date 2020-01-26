@@ -206,9 +206,6 @@ public class MainActivity extends AppCompatActivity {
                 pw.close();
             }else{
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(this, "Can't export your notes without permission.", Toast.LENGTH_LONG).show();
-                }
             }
         }catch (IOException io){
             System.out.println(io.getMessage() + "\n" + io.getCause());
