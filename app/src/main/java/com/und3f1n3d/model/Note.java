@@ -2,9 +2,10 @@ package com.und3f1n3d.model;
 
 import com.und3f1n3d.MainActivity;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-public class Note {
+public class Note implements Serializable {
 
     // FIELDS
 
@@ -49,6 +50,6 @@ public class Note {
 
     @Override
     public String toString() {
-        return text + " " + id;
+        return text + "\n" + dateOfLastChange + "\n" + id;
     }
 }

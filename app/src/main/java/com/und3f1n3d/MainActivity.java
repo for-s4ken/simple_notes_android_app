@@ -6,9 +6,16 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import com.und3f1n3d.fragments.NoteEditFragment;
 import com.und3f1n3d.fragments.NotesListFragment;
 import com.und3f1n3d.model.Note;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem addNote;
     private MenuItem deleteNote;
     private static List<Note> notes;
+    private static File f;
 
     // BASIC METHODS
 
@@ -27,10 +35,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if(savedInstanceState == null){
-            notes = new ArrayList<>();
-            for(int i = 0; i < 10; i++){
-                notes.add(Note.makeNewNote("lalka" + i));
+            f = new File(getFilesDir(), "notes.txt");
+            try{
+                if(f.exists()){
+                    System.out.println(f.getPath());
+                    ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+                    Object temp = ois.readObject();
+                    if(temp instanceof ArrayList){
+                        notes = (ArrayList<Note>)temp;
+                    }else{
+                        System.out.println("NOTES.TXT IS NOT AN LIST TYPE");
+                        f.deleteOnExit();
+                        notes = new ArrayList<>();
+                    }
+                    ois.close();
+                }else if (f.createNewFile()){
+                    notes = new ArrayList<>();
+                }else{
+                    System.exit(0);
+                }
+            }catch (IOException io){
+                System.out.println(io.getMessage() + "\n" + io.getCause());
+            }catch (ClassNotFoundException cnfe){
+                System.out.println(cnfe.getMessage() + "\n" + cnfe.getCause());
             }
+
             //
             FragmentTransaction transaction = getSupportFragmentManager()
                     .beginTransaction()
@@ -87,6 +116,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        saveNotes();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        saveNotes();
+        super.onStop();
+    }
+
     // OVERRIDING PARENT onBackPressed
 
     @Override
@@ -113,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         notes.add(n);
     }
 
+
     public  void removeCurrentNote(){
         if(NoteEditFragment.getCurrentNote() != null){
             int temp = NoteEditFragment.getCurrentNote().getId();
@@ -128,6 +170,17 @@ public class MainActivity extends AppCompatActivity {
             this.onBackPressed();
         }
         System.out.println(notes);
+    }
+
+    public void saveNotes(){
+        try{
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
+            oos.writeObject(notes);
+            oos.flush();
+            oos.close();
+        }catch (IOException io){
+            Toast.makeText(this, io.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     // CHANGING MENU ITEMS

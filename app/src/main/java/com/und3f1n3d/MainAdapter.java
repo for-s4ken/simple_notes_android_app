@@ -36,11 +36,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         holder.date.setText(note.getDateOfLastChange());
         String temp = note.getText();
         if(temp.contains(System.lineSeparator())) {
-            if(temp.length() > 19){
+            holder.header.setText(temp.substring(0, temp.indexOf(System.lineSeparator())));
+            if(holder.header.getText().length() > 19){
                 temp = temp.substring(0, temp.indexOf(System.lineSeparator())).substring(0, 16) + "...";
                 holder.header.setText(temp);
-            }else{
-                holder.header.setText(temp.substring(0, temp.indexOf(System.lineSeparator())));
             }
         }else if(temp.length() > 19){
             temp = (note.getText().substring(0, 16) + "...");
@@ -56,7 +55,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return MainActivity.getNotes().size();
+        if(MainActivity.getNotes() != null){
+            return MainActivity.getNotes().size();
+        }else{
+            return 0;
+        }
     }
 
     // VIEWHOLDER MODEL
